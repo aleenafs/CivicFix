@@ -878,10 +878,10 @@
       }
     ];
 
-    function getReports() {
-      const saved = localStorage.getItem('civicfix_reports');
-      return saved ? JSON.parse(saved) : initialReports;
-    }
+   function getReports() {
+    const saved = localStorage.getItem('civicfix_reports');
+    return saved ? JSON.parse(saved) : initialReports;
+}
 
     function saveReports(data) {
       localStorage.setItem('civicfix_reports', JSON.stringify(data));
@@ -903,7 +903,8 @@
       if (pageId === 'report') {
         setTimeout(initReportMap, 100);
       } else if (pageId === 'live') {
-        setTimeout(initLiveMap, 100);
+    setTimeout(initLiveMap, 100);
+    loadFromFlask();
       }
     }
 
@@ -914,7 +915,27 @@
       renderUserProfile();
       updateStats();
     }
-
+function loadFromFlask() {
+    fetch('/reports').then(r => r.json()).then(data => {
+        data.forEach(r => {
+            if (!reports.find(x => String(x.id) === String(r.id))) {
+                reports.unshift({
+                    id: r.id, type: r.issue_type,
+                    location: r.location, severity: r.priority,
+                    votes: r.votes || 1, dept: r.department,
+                    lat: 13.0827+(Math.random()*0.02-0.01),
+                    lng: 80.2707+(Math.random()*0.02-0.01),
+                    voted: false, status: r.status || 'In Progress'
+                });
+            }
+        });
+        saveReports(reports);
+        renderLiveList();
+        renderVoteGrid();
+        renderGovTable();
+        updateStats();
+    });
+}
     function updateStats() {
       document.getElementById('stat-total').innerText = reports.length;
       document.getElementById('stat-pending').innerText = reports.filter(r => r.votes < 1000).length;
@@ -1000,7 +1021,7 @@
       reports[index].votes += 1;
       reports[index].voted = true;
       saveReports(reports);
-      renderAllViews();
+      loadFromFlask();
     }
 
     function handleUserAuth() {
