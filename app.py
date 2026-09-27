@@ -3,9 +3,9 @@
 # This file is now clean and small — it just coordinates.
 # All the real logic lives in the other modules.
 
-from flask import Flask, render_template, request, jsonify
-import os
+from flask import Flask, render_template, request, jsonify, send_from_directory
 import datetime
+from flask import send_from_directory
 
 # Import our modules — this is what makes it multi-module
 from database   import init_db, insert_report, get_all_reports, get_stats, get_reports_by_ward
@@ -108,3 +108,22 @@ def verify_report(report_id):
 if __name__ == '__main__':
     init_db()
     app.run(debug=True)
+
+from flask import send_from_directory
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+@app.route('/update-status/<int:report_id>', methods=['POST'])
+def update_status(report_id):
+    status = request.json.get('status', 'pending')
+    conn = __import__('database').get_connection()
+    c = conn.cursor()
+    c.execute('UPDATE reports SET status=? WHERE id=?', (status, report_id))
+    conn.commit()
+    conn.close()
+    return jsonify({'success': True, 'status': status})
+@app.route('/uploads/<path:filename>')
+def uploaded_file(filename):
+    return send_from_directory('uploads', filename)

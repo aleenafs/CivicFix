@@ -1,0 +1,243 @@
+:root {
+  --bg-dark: #121212;
+  --card-bg: #1e1e1e;
+  --text-main: #f0f0f0;
+  --text-dim: #a0a0a0;
+  --gold: #d4af37;
+  --gold-light: #f3e5ab;
+  --red-alert: #e53935;
+  --amber-alert: #fb8c00;
+  --green-alert: #43a047;
+  --border-color: #333333;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  padding: 2rem 1rem;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  font-size: 2.2rem;
+  color: var(--gold-light);
+  margin-bottom: 0.5rem;
+}
+
+.page-header p {
+  color: var(--text-dim);
+}
+
+/* FILTER BAR STYLING */
+.vote-filter-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.form-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.75rem 1rem;
+  background-color: var(--card-bg);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus {
+  border-color: var(--gold);
+}
+
+.form-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* MAP STYLING (BRIGHT OVERRIDE) */
+.map-box {
+  height: 350px;
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.leaflet-container {
+  background: #ffffff !important;
+}
+
+/* Brightens the Leaflet map tiles */
+.leaflet-tile {
+  filter: brightness(1.08) contrast(1.05) saturate(1.15) !important;
+}
+
+/* Bright Map Popup Styling */
+.leaflet-popup-content-wrapper {
+  background: #ffffff !important;
+  color: #120d05 !important;
+  border: 1px solid var(--gold) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2) !important;
+}
+
+.leaflet-popup-tip {
+  background: #ffffff !important;
+}
+
+.leaflet-control-zoom a {
+  background: #ffffff !important;
+  color: #120d05 !important;
+  border-color: #ccc !important;
+}
+
+/* ISSUES GRID & CARDS */
+.vote-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.vote-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.vote-card.esc {
+  border-color: var(--red-alert);
+}
+
+.esc-tag {
+  position: absolute;
+  top: -10px;
+  right: 15px;
+  background: var(--red-alert);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+.vc-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.sev-tag.high { color: var(--red-alert); }
+.sev-tag.medium { color: var(--amber-alert); }
+
+.badge {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.badge.red { background: rgba(229, 57, 53, 0.2); color: var(--red-alert); }
+.badge.amber { background: rgba(251, 140, 0, 0.2); color: var(--amber-alert); }
+
+/* PROBLEM / ISSUE CATEGORY BADGE */
+.badge-category {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--gold-light);
+  border: 1px solid var(--gold);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.vote-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.2rem;
+}
+
+.loc {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.vpm {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  margin-bottom: 0.4rem;
+  color: var(--text-dim);
+}
+
+.vc-num {
+  font-weight: bold;
+  color: var(--text-main);
+}
+
+.progress-track {
+  width: 100%;
+  height: 8px;
+  background-color: var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--red-alert));
+  border-radius: 4px;
+}
+
+.vote-action {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--gold);
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.vote-action:hover {
+  opacity: 0.9;
+}
+
+.vote-action.done {
+  background-color: var(--border-color);
+  color: var(--text-dim);
+  cursor: default;
+}

@@ -117,3 +117,5 @@ def update_verification(report_id, new_trust_score):
     ''', (new_trust_score, report_id))
     conn.commit()
     conn.close()
+
+
